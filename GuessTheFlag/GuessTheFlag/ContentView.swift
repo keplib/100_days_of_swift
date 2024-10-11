@@ -9,13 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Spain", "UK", "Ukraine", "US"].shuffled()
-    
-    @State private var correctAnswer = Int.random(in: 0...2)
-    
-    @State private var userPoints = 0
-    @State private var showAlert = false
-    @State private var scoreTitle = ""
+    @ObservedObject var vm: ViewModel
     
     var body: some View {
         ZStack {
@@ -28,7 +22,7 @@ struct ContentView: View {
                     Text("Tap the flag of")
                         .font(.subheadline)
                         .fontWeight(.heavy)
-                    Text(countries[correctAnswer])
+                    Text(vm.flags[vm.correctAnswer])
                         .font(.largeTitle)
                         .fontWeight(.semibold)
                 }
@@ -36,48 +30,30 @@ struct ContentView: View {
                 
                 ForEach(0..<3) {number in
                     Button(action: {
-                       flagTapped(number)
+                        vm.clickFlag(number)
                     }, label: {
-                        Image(countries[number])
+                        Image(vm.flags[number])
                             .cornerRadius(10)
                             .shadow(color: .black, radius: 5.0)
                     })
                 }
             }
         }
-        .alert(scoreTitle, isPresented: $showAlert) {
+        .alert(vm.popupHeader, isPresented: $vm.showAlert) {
             Button(action: {
-                askQuestion()
+                vm.getQuestion()
             }, label: {
                 Text("Continue")
             })
         } message: {
-            Text("You have \(userPoints)")
+            Text("You have \(vm.userScore)")
         }
 
  
      
     }
-    
-    func flagTapped (_ number: Int) {
-        if number == correctAnswer {
-            scoreTitle = "Correct"
-            userPoints += 1
-            
-        } else {
-            scoreTitle = "Wrong"
-        }
-        
-        showAlert = true
-        
-    }
-    
-    func askQuestion () {
-        countries.shuffle()
-        correctAnswer = Int.random(in: 0...2)
-    }
 }
 
 #Preview {
-    ContentView()
+    ContentView(vm: ViewModel())
 }

@@ -11,6 +11,8 @@
 		7430A59D2CAF2DEF001147E0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7430A59C2CAF2DEF001147E0 /* ContentView.swift */; };
 		7430A59F2CAF2DF1001147E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7430A59E2CAF2DF1001147E0 /* Assets.xcassets */; };
 		7430A5A22CAF2DF1001147E0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7430A5A12CAF2DF1001147E0 /* Preview Assets.xcassets */; };
+		74D222BB2CB87E2D00F604F6 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D222BA2CB87E2D00F604F6 /* GameModel.swift */; };
+		74D222BD2CB87E4700F604F6 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D222BC2CB87E4700F604F6 /* ViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +21,8 @@
 		7430A59C2CAF2DEF001147E0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7430A59E2CAF2DF1001147E0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7430A5A12CAF2DF1001147E0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		74D222BA2CB87E2D00F604F6 /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
+		74D222BC2CB87E4700F604F6 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +59,8 @@
 				7430A59C2CAF2DEF001147E0 /* ContentView.swift */,
 				7430A59E2CAF2DF1001147E0 /* Assets.xcassets */,
 				7430A5A02CAF2DF1001147E0 /* Preview Content */,
+				74D222BA2CB87E2D00F604F6 /* GameModel.swift */,
+				74D222BC2CB87E4700F604F6 /* ViewModel.swift */,
 			);
 			path = GuessTheFlag;
 			sourceTree = "<group>";
@@ -139,6 +145,8 @@
 			files = (
 				7430A59D2CAF2DEF001147E0 /* ContentView.swift in Sources */,
 				7430A59B2CAF2DEF001147E0 /* GuessTheFlagApp.swift in Sources */,
+				74D222BD2CB87E4700F604F6 /* ViewModel.swift in Sources */,
+				74D222BB2CB87E2D00F604F6 /* GameModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
