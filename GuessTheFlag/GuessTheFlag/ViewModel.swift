@@ -22,11 +22,8 @@ class ViewModel: ObservableObject {
     
     //These are the variables from the model that the VM makes available for the UI (read only)
     var flags: Array<String> {
-        return game.flags
+        return game.flagsToShow
     }
-    
-    // Itt at lehetne terni
-    // var flagsToShow: Array<String> { return game.flagsToShow }
     
     var correctAnswer: Int {
         return game.correctAnswer
