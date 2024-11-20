@@ -33,72 +33,13 @@ struct ContentView: View {
             .onSubmit {
                 viewModel.addNewWord(word: viewModel.newWord)
             }
-//            .onAppear(perform:startGame)
-            .alert(viewModel.errorTitle, isPresented: $viewModel.showingError) {
+            .alert(viewModel.feedbackToUser.feddbackTitle, isPresented: $viewModel.showingError) {
                 Button("OK") {}
             } message: {
-                Text(viewModel.errorMessage)
+                Text(viewModel.feedbackToUser.FeedbackMessage)
             }
         }
     }
-    
-//    func addNewWord() {
-//        let answer = newWord.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-//        
-//        guard answer.count > 0 else { return }
-//        
-//        guard isOriginal(word: answer) else {
-//            wordError(title: "Word used already", message: "Be more original")
-//            return
-//        }
-//        
-//        guard isPossible(word: answer) else {
-//            wordError(title: "Word not possible", message: "You can't spell that word from '\(rootWord) !'")
-//            return
-//        }
-//        
-//        guard isReal(word: answer) else {
-//            wordError(title: "Word not recognized", message: "You just can't make them up, you know!")
-//            return
-//        }
-//        
-//        withAnimation {
-//            usedWords.insert(answer, at: 0)
-//        }
-//        
-//        newWord = ""
-//    }
-    
-//    func isOriginal(word: String) -> Bool {
-//        !usedWords.contains(word)
-//    }
-//    
-//    func isPossible(word: String) -> Bool {
-//        var tempWord = rootWord
-//        
-//        for letter in word {
-//            if let pos = tempWord.firstIndex(of: letter) {
-//                tempWord.remove(at: pos)
-//            } else {
-//                return false
-//            }
-//        }
-//        return true
-//    }
-//    
-//    func isReal(word: String) -> Bool {
-//        let checker = UITextChecker()
-//        let range = NSRange(location: 0, length: word.utf16.count)
-//        let misspelledRange = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
-//        
-//        return misspelledRange.location == NSNotFound
-//    }
-//    
-//    func wordError(title: String, message: String) {
-//        errorTitle = title
-//        errorMessage = message
-//        showingError = true
-//    }
 }
 
 #Preview {

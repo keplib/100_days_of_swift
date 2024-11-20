@@ -12,7 +12,8 @@ class WordScrambleVM: ObservableObject {
     @Published  var errorTitle = ""
     @Published  var errorMessage = ""
     @Published  var showingError = false
-    @Published var newWord = ""
+    @Published  var newWord = ""
+    @Published  var feedbackToUser: Feedback = Feedback(feddbackTitle: "", FeedbackMessage: "")
     
     
     private static func getWordList() -> Array<String> {
@@ -41,34 +42,37 @@ class WordScrambleVM: ObservableObject {
     func addNewWord(word: String) {
         let result = game.addNewWord(newWord: word)
         
-        print(result)
+        setFeedback(feedbackType: result)
+        showingError = true
+        
+        newWord = ""
+        
+    }
+    
+    
+    // Helper fucntion to generate an appropriate feedback title and message for UI
+    func setFeedback(feedbackType: FeedabckAfterAddingWord) {
+        switch feedbackType {
+        case .emptyWord:
+            feedbackToUser = Feedback(feddbackTitle: "Empty addition", FeedbackMessage: "You cannot submit words with no characters!")
+        case .notOriginal:
+            feedbackToUser = Feedback(feddbackTitle: "Word used already", FeedbackMessage: "Be more original")
+        case .notPossible:
+            feedbackToUser = Feedback(feddbackTitle: "Word not possible", FeedbackMessage: "You can't spell that word from '\(rootWord) !'")
+        case .notReal:
+            feedbackToUser = Feedback(feddbackTitle: "Word not recognized", FeedbackMessage: "You just can't make them up, you know!")
+        case .success:
+            feedbackToUser = Feedback(feddbackTitle: "Perfect!", FeedbackMessage: "Word's been added to your list!")
+            
+        }
+    
+        
     }
     
 }
 
+struct Feedback {
+    var feddbackTitle: String
+    var FeedbackMessage: String
+}
 
-//
-//    func addNewWord() {
-//
-//
-//        guard isOriginal(word: answer) else {
-//            wordError(title: "Word used already", message: "Be more original")
-//            return
-//        }
-//
-//        guard isPossible(word: answer) else {
-//            wordError(title: "Word not possible", message: "You can't spell that word from '\(rootWord) !'")
-//            return
-//        }
-//
-//        guard isReal(word: answer) else {
-//            wordError(title: "Word not recognized", message: "You just can't make them up, you know!")
-//            return
-//        }
-//
-//        withAnimation {
-//            usedWords.insert(answer, at: 0)
-//        }
-//
-//        newWord = ""
-//    }

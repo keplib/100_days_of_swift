@@ -21,7 +21,7 @@ struct WordScrambleModel {
     }
     
     
-    func addNewWord(newWord: String) -> FeedabckAfterAddingWord {
+    mutating func addNewWord(newWord: String) -> FeedabckAfterAddingWord {
         print(newWord)
         let answer = newWord.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
         
@@ -39,6 +39,7 @@ struct WordScrambleModel {
             return .notReal
         }
         
+        usedWords.append(newWord)
         return .success
     }
  
