@@ -1,50 +1,27 @@
 //
-//  ContentView.swift
+//  WordScrambleModel.swift
 //  WordScramble
 //
-//  Created by Balázs Képli on 11/10/24.
+//  Created by Balázs Képli on 19/11/24.
 //
 
-import SwiftUI
+import Foundation
 
-struct ContentView: View {
+
+struct WordScrambleModel {
     
-    @State private var usedWords = [String]()
-    @State private var newWord = ""
+     var usedWords: Array<String>
+     var rootWord: String
+     var newWord: String
     
-    @StateObject private var viewModel = WordScrambleVM()
     
-    var body: some View {
-        NavigationStack {
-            List {
-                Section {
-                    TextField("Enter your word", text: $newWord)
-                        .textInputAutocapitalization(.never)
-                }
-                
-                Section {
-                    ForEach(usedWords, id: \.self) { word in
-                        HStack {
-                            Image(systemName: "\(word.count).circle")
-                            Text(word)
-                        }
-                        
-                    }
-                }
-            }
-            .navigationTitle(viewModel.rootWord)
-//            .onSubmit {
-//                addNewWord()
-//            }
-//            .onAppear(perform:startGame)
-            .alert(viewModel.errorTitle, isPresented: $viewModel.showingError) {
-                Button("OK") {}
-            } message: {
-                Text(viewModel.errorMessage)
-            }
-        }
+    init(wordList: Array<String>) {
+        rootWord = wordList.randomElement() ?? "silkworm"
+        newWord = ""
+        usedWords = [String]()
     }
     
+//    
 //    func addNewWord() {
 //        let answer = newWord.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
 //        
@@ -71,7 +48,7 @@ struct ContentView: View {
 //        
 //        newWord = ""
 //    }
-    
+//    
 //    func isOriginal(word: String) -> Bool {
 //        !usedWords.contains(word)
 //    }
@@ -96,14 +73,4 @@ struct ContentView: View {
 //        
 //        return misspelledRange.location == NSNotFound
 //    }
-//    
-//    func wordError(title: String, message: String) {
-//        errorTitle = title
-//        errorMessage = message
-//        showingError = true
-//    }
-}
-
-#Preview {
-    ContentView()
 }

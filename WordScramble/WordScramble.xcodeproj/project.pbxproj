@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		74042AB72CED0CF0000AA1F4 /* WordScrambleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74042AB62CED0CF0000AA1F4 /* WordScrambleModel.swift */; };
+		74042AB92CED0D0C000AA1F4 /* WordScrambleVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74042AB82CED0D0C000AA1F4 /* WordScrambleVM.swift */; };
 		743DFD022CCE9E19005419B7 /* start.txt in Resources */ = {isa = PBXBuildFile; fileRef = 743DFD012CCE9E19005419B7 /* start.txt */; };
 		74D222CF2CB9875500F604F6 /* WordScrambleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D222CE2CB9875500F604F6 /* WordScrambleApp.swift */; };
 		74D222D12CB9875500F604F6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D222D02CB9875500F604F6 /* ContentView.swift */; };
@@ -15,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		74042AB62CED0CF0000AA1F4 /* WordScrambleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordScrambleModel.swift; sourceTree = "<group>"; };
+		74042AB82CED0D0C000AA1F4 /* WordScrambleVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordScrambleVM.swift; sourceTree = "<group>"; };
 		743DFD012CCE9E19005419B7 /* start.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = start.txt; sourceTree = "<group>"; };
 		74D222CB2CB9875500F604F6 /* WordScramble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WordScramble.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74D222CE2CB9875500F604F6 /* WordScrambleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordScrambleApp.swift; sourceTree = "<group>"; };
@@ -34,6 +38,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		74042AB42CED0CBB000AA1F4 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				74042AB62CED0CF0000AA1F4 /* WordScrambleModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		74042AB52CED0CC9000AA1F4 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				74042AB82CED0D0C000AA1F4 /* WordScrambleVM.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		74D222C22CB9875500F604F6 = {
 			isa = PBXGroup;
 			children = (
@@ -53,6 +73,8 @@
 		74D222CD2CB9875500F604F6 /* WordScramble */ = {
 			isa = PBXGroup;
 			children = (
+				74042AB52CED0CC9000AA1F4 /* ViewModel */,
+				74042AB42CED0CBB000AA1F4 /* Model */,
 				743DFD012CCE9E19005419B7 /* start.txt */,
 				74D222CE2CB9875500F604F6 /* WordScrambleApp.swift */,
 				74D222D02CB9875500F604F6 /* ContentView.swift */,
@@ -143,6 +165,8 @@
 			files = (
 				74D222D12CB9875500F604F6 /* ContentView.swift in Sources */,
 				74D222CF2CB9875500F604F6 /* WordScrambleApp.swift in Sources */,
+				74042AB72CED0CF0000AA1F4 /* WordScrambleModel.swift in Sources */,
+				74042AB92CED0D0C000AA1F4 /* WordScrambleVM.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
