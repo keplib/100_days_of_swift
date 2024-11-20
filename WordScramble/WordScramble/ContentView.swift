@@ -8,22 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
-    
-    @State private var usedWords = [String]()
-    @State private var newWord = ""
-    
+        
     @StateObject private var viewModel = WordScrambleVM()
     
     var body: some View {
         NavigationStack {
             List {
                 Section {
-                    TextField("Enter your word", text: $newWord)
+                    TextField("Enter your word", text: $viewModel.newWord)
                         .textInputAutocapitalization(.never)
                 }
                 
                 Section {
-                    ForEach(usedWords, id: \.self) { word in
+                    ForEach(viewModel.usedWords, id: \.self) { word in
                         HStack {
                             Image(systemName: "\(word.count).circle")
                             Text(word)
@@ -33,9 +30,9 @@ struct ContentView: View {
                 }
             }
             .navigationTitle(viewModel.rootWord)
-//            .onSubmit {
-//                addNewWord()
-//            }
+            .onSubmit {
+                viewModel.addNewWord(word: viewModel.newWord)
+            }
 //            .onAppear(perform:startGame)
             .alert(viewModel.errorTitle, isPresented: $viewModel.showingError) {
                 Button("OK") {}

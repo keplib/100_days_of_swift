@@ -21,7 +21,12 @@ struct WordScrambleModel {
         usedWords = [String]()
     }
     
-//    
+    
+    func addNewWord(newWord: String) {
+        print(newWord)
+    }
+ 
+//
 //    func addNewWord() {
 //        let answer = newWord.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
 //        

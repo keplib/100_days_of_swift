@@ -12,6 +12,7 @@ class WordScrambleVM: ObservableObject {
     @Published  var errorTitle = ""
     @Published  var errorMessage = ""
     @Published  var showingError = false
+    @Published var newWord = ""
     
     
     private static func getWordList() -> Array<String> {
@@ -31,6 +32,14 @@ class WordScrambleVM: ObservableObject {
     
     var rootWord: String {
         game.rootWord
+    }
+    
+    var usedWords: Array<String> {
+        game.usedWords
+    }
+    
+    func addNewWord(word: String) {
+        game.addNewWord(newWord: word)
     }
     
 }
