@@ -6,46 +6,43 @@
 //
 
 import Foundation
+import UIKit
 
 
 struct WordScrambleModel {
     
      var usedWords: Array<String>
      var rootWord: String
-     var newWord: String
     
     
     init(wordList: Array<String>) {
         rootWord = wordList.randomElement() ?? "silkworm"
-        newWord = ""
         usedWords = [String]()
     }
     
     
-    func addNewWord(newWord: String) {
+    func addNewWord(newWord: String) -> FeedabckAfterAddingWord {
         print(newWord)
+        let answer = newWord.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        guard answer.count > 0 else { return .emptyWord }
+        
+        guard isOriginal(word: answer) else {
+            return .notOriginal
+        }
+        
+        guard isPossible(word: answer) else {
+            return .notPossible
+        }
+        
+        guard isReal(word: answer) else {
+            return .notReal
+        }
+        
+        return .success
     }
  
-//
-//    func addNewWord() {
-//        let answer = newWord.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-//        
-//        guard answer.count > 0 else { return }
-//        
-//        guard isOriginal(word: answer) else {
-//            wordError(title: "Word used already", message: "Be more original")
-//            return
-//        }
-//        
-//        guard isPossible(word: answer) else {
-//            wordError(title: "Word not possible", message: "You can't spell that word from '\(rootWord) !'")
-//            return
-//        }
-//        
-//        guard isReal(word: answer) else {
-//            wordError(title: "Word not recognized", message: "You just can't make them up, you know!")
-//            return
-//        }
+
 //        
 //        withAnimation {
 //            usedWords.insert(answer, at: 0)
@@ -53,29 +50,39 @@ struct WordScrambleModel {
 //        
 //        newWord = ""
 //    }
-//    
-//    func isOriginal(word: String) -> Bool {
-//        !usedWords.contains(word)
-//    }
-//    
-//    func isPossible(word: String) -> Bool {
-//        var tempWord = rootWord
-//        
-//        for letter in word {
-//            if let pos = tempWord.firstIndex(of: letter) {
-//                tempWord.remove(at: pos)
-//            } else {
-//                return false
-//            }
-//        }
-//        return true
-//    }
-//    
-//    func isReal(word: String) -> Bool {
-//        let checker = UITextChecker()
-//        let range = NSRange(location: 0, length: word.utf16.count)
-//        let misspelledRange = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
-//        
-//        return misspelledRange.location == NSNotFound
-//    }
+
+    
+    // HELPER FUNCTIONS FOR WORD CHECKINGS
+    func isOriginal(word: String) -> Bool {
+        !usedWords.contains(word)
+    }
+
+    func isPossible(word: String) -> Bool {
+        var tempWord = rootWord
+        
+        for letter in word {
+            if let pos = tempWord.firstIndex(of: letter) {
+                tempWord.remove(at: pos)
+            } else {
+                return false
+            }
+        }
+        return true
+    }
+    
+    func isReal(word: String) -> Bool {
+        let checker = UITextChecker()
+        let range = NSRange(location: 0, length: word.utf16.count)
+        let misspelledRange = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
+        
+        return misspelledRange.location == NSNotFound
+    }
+}
+
+enum FeedabckAfterAddingWord {
+    case emptyWord
+    case notOriginal
+    case notPossible
+    case notReal
+    case success
 }
