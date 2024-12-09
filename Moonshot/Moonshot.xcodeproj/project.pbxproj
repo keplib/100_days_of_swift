@@ -16,6 +16,7 @@
 		745274782D023552001676ED /* missions.json in Resources */ = {isa = PBXBuildFile; fileRef = 745274762D023552001676ED /* missions.json */; };
 		745274792D023552001676ED /* astronauts.json in Resources */ = {isa = PBXBuildFile; fileRef = 745274772D023552001676ED /* astronauts.json */; };
 		7452747B2D0498C5001676ED /* Mission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7452747A2D0498C5001676ED /* Mission.swift */; };
+		7452747D2D0774DE001676ED /* Color-Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7452747C2D0774DE001676ED /* Color-Theme.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		745274762D023552001676ED /* missions.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = missions.json; sourceTree = "<group>"; };
 		745274772D023552001676ED /* astronauts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = astronauts.json; sourceTree = "<group>"; };
 		7452747A2D0498C5001676ED /* Mission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mission.swift; sourceTree = "<group>"; };
+		7452747C2D0774DE001676ED /* Color-Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color-Theme.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				745274742D0231F4001676ED /* Bundle-Decodable.swift */,
 				745274772D023552001676ED /* astronauts.json */,
 				745274762D023552001676ED /* missions.json */,
+				7452747C2D0774DE001676ED /* Color-Theme.swift */,
 			);
 			path = Moonshot;
 			sourceTree = "<group>";
@@ -163,6 +166,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				745274732D023187001676ED /* Astronaut.swift in Sources */,
+				7452747D2D0774DE001676ED /* Color-Theme.swift in Sources */,
 				745274622CFF807E001676ED /* ContentView.swift in Sources */,
 				745274602CFF807E001676ED /* MoonshotApp.swift in Sources */,
 				7452747B2D0498C5001676ED /* Mission.swift in Sources */,
