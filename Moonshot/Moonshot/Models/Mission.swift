@@ -32,4 +32,8 @@ struct Mission: Codable, Identifiable {
     }
 }
 
-
+extension Mission {
+    static let samples = [
+        Mission(id: 1, launchDate: Date(), crew: [Crew(name: "Teszt Elek", role: "Captain")], description: "First moon landing mission."),
+    ]
+}
