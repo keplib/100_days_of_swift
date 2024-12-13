@@ -9,13 +9,18 @@ import SwiftUI
 
 struct MissionView: View {
     
-    struct CrewMember: Hashable {
-        let role: String
-        let astronaut: Astronaut
+    let mission: Mission
+    var viewModel: MoonshotVM
+    let crew: [CrewMember]
+    
+    init(mission: Mission, viewModel: MoonshotVM) {
+        self.mission = mission
+        self.viewModel = viewModel
+        
+        self.crew = viewModel.getCrewForMission(for: mission)
     }
     
-    let mission: Mission
-    let crew: [CrewMember]
+
     
     var body: some View {
         ScrollView {
@@ -91,22 +96,11 @@ struct MissionView: View {
         }
     }
     
-    init(mission: Mission, astronauts: [String: Astronaut]) {
-        self.mission = mission
-        self.crew = mission.crew.map { member in
-            if let astronaut = astronauts[member.name] {
-                return CrewMember(role: member.role, astronaut: astronaut)
-            } else {
-                fatalError("Missing \(member.name)")
-            }
-        }
-    }
-    
+
 }
 
 #Preview {
-    let missions: [Mission] = Bundle.main.decode("missions.json")
-    let astronauts: [String: Astronaut] = Bundle.main.decode("astronauts.json")
-    return MissionView(mission: missions[0], astronauts: astronauts)
+   let missions: [Mission] = Bundle.main.decode("missions.json")
+   return MissionView(mission: missions[0], viewModel: MoonshotVM())
         .preferredColorScheme(.dark)
 }
