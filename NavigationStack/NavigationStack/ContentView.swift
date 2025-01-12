@@ -21,6 +21,9 @@ struct DetailView: View {
 }
 
 struct ContentView: View {
+    
+    @State private var path = [Int]()
+    
     var body: some View {
 //        NavigationStack {
 //            
@@ -35,16 +38,39 @@ struct ContentView: View {
 //        }
         
         
-        NavigationStack {
-            List(0..<100) { i in
-                NavigationLink(value: i) {
-                    Text("Select \(i)")
+//        NavigationStack {
+//            List(0..<100) { i in
+//                NavigationLink(value: i) {
+//                    Text("Select \(i)")
+//                }
+//                .navigationDestination(for: Int.self) { selection in
+//                    DetailView(number: selection)
+//                }
+//            }
+//        }
+        
+        NavigationStack(path: $path) {
+            VStack {
+                Button("Show 32") {
+                    path = [32]
                 }
-                .navigationDestination(for: Int.self) { selection in
-                    DetailView(number: selection)
+
+                Button("Show 64") {
+                    path.append(64)
+                }
+                
+                Button("Show 32 then 64") {
+                    path = [32, 64]
                 }
             }
+            .navigationDestination(for: Int.self) { selection in
+                
+                DetailView(number: selection)
+            }
         }
+        
+        
+        
     }
 }
 
