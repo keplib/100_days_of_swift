@@ -7,47 +7,84 @@
 
 import SwiftUI
 
-@Observable
-class PathStore {
-    var path = NavigationPath()
-        
-    func goHome() {
-        path = NavigationPath()
-    }
-}
+
+// SOLUTION 1: saving path in an observable class
+
+//@Observable
+//class PathStore {
+//    var path = NavigationPath()
+//        
+//    func goHome() {
+//        path = NavigationPath()
+//    }
+//}
+//
+//struct DetailView: View {
+//    
+//    var number: Int
+//    var path: NavigationPath
+//    var vm: PathStore
+//    
+//    var body: some View {
+//        NavigationLink("Go to random Number", value: Int.random(in: 1...1000))
+//            .navigationTitle("Number: \(number)")
+//            .toolbar {
+//                Button("Home") {
+//                    vm.goHome()
+//                }
+//            }
+//    }
+//        
+//}
+//
+//struct ContentView: View {
+//    
+//    @State private var path = [Int]()
+//    @State private var vm = PathStore()
+//    
+//    var body: some View {
+//        NavigationStack(path: $vm.path) {
+//            DetailView(number: 0, path: vm.path, vm: vm)
+//                .navigationDestination(for: Int.self) { i in
+//                    DetailView(number: i, path: vm.path, vm: vm)
+//                }
+//        }
+//    }
+//}
+
+
+// SOLUTION 2: using binding
 
 struct DetailView: View {
     
     var number: Int
-    var path: NavigationPath
-    var vm: PathStore
-    
+    @Binding var path: NavigationPath
+
     var body: some View {
-        NavigationLink("Go to random Number", value: Int.random(in: 1...1000))
+        NavigationLink("Go to Random Number", value: Int.random(in: 1...1000))
             .navigationTitle("Number: \(number)")
             .toolbar {
                 Button("Home") {
-                    vm.goHome()
+                    path = NavigationPath()
                 }
             }
     }
-        
 }
 
 struct ContentView: View {
-    
-    @State private var path = [Int]()
-    @State private var vm = PathStore()
-    
+    @State private var path = NavigationPath()
+
     var body: some View {
-        NavigationStack(path: $vm.path) {
-            DetailView(number: 0, path: vm.path, vm: vm)
+        NavigationStack(path: $path) {
+            DetailView(number: 0, path: $path)
                 .navigationDestination(for: Int.self) { i in
-                    DetailView(number: i, path: vm.path, vm: vm)
+                    DetailView(number: i, path: $path)
                 }
         }
     }
 }
+
+
 
 #Preview {
     ContentView()
