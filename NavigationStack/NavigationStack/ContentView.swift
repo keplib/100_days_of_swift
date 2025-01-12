@@ -22,15 +22,27 @@ struct DetailView: View {
 
 struct ContentView: View {
     var body: some View {
+//        NavigationStack {
+//            
+//            List(0..<100) { i in
+//                NavigationLink {
+//                    DetailView(number: i)
+//                } label: {
+//                    Text("Tap me")
+//                }
+//
+//            }
+//        }
+        
+        
         NavigationStack {
-            
-            List(0..<10) { i in
-                NavigationLink {
-                    DetailView(number: i)
-                } label: {
-                    Text("Tap me")
+            List(0..<100) { i in
+                NavigationLink(value: i) {
+                    Text("Select \(i)")
                 }
-
+                .navigationDestination(for: Int.self) { selection in
+                    DetailView(number: selection)
+                }
             }
         }
     }
