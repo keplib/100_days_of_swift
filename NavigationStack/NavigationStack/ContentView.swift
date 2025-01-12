@@ -11,12 +11,26 @@ struct DetailView: View {
     var number: Int
     
     var body: some View {
-        Text("Detail View \(number)")
+        Text("You selected the number \(number)")
     }
     
     init(number: Int) {
         self.number = number
         print("Creating DetailView \(number)")
+    }
+}
+
+struct DetailTextView: View {
+    
+    var text: String
+    
+    var body: some View {
+        Text("You selected the string \(text)")
+    }
+    
+    init(text: String) {
+        self.text = text
+        print("Creating DetailTextView for \(text)")
     }
 }
 
@@ -49,28 +63,43 @@ struct ContentView: View {
 //            }
 //        }
         
-        NavigationStack(path: $path) {
-            VStack {
-                Button("Show 32") {
-                    path = [32]
-                }
-
-                Button("Show 64") {
-                    path.append(64)
+//        NavigationStack(path: $path) {
+//            VStack {
+//                Button("Show 32") {
+//                    path = [32]
+//                }
+//
+//                Button("Show 64") {
+//                    path.append(64)
+//                }
+//                
+//                Button("Show 32 then 64") {
+//                    path = [32, 64]
+//                }
+//            }
+//            .navigationDestination(for: Int.self) { selection in
+//                
+//                DetailView(number: selection)
+//            }
+//        }
+        
+        NavigationStack {
+            List {
+                ForEach(0..<5) { i in
+                    NavigationLink("Select Number: \(i)", value: i)
                 }
                 
-                Button("Show 32 then 64") {
-                    path = [32, 64]
+                ForEach(0..<5) { i in
+                    NavigationLink("Select String: \(i)", value: String(i))
                 }
             }
             .navigationDestination(for: Int.self) { selection in
-                
                 DetailView(number: selection)
             }
+            .navigationDestination(for: String.self) { selection in
+                DetailTextView(text: String(selection))
+            }
         }
-        
-        
-        
     }
 }
 
