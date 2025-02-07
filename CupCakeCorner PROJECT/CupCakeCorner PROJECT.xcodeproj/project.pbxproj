@@ -12,6 +12,7 @@
 		7421DE612D555D720071E66D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7421DE602D555D720071E66D /* Assets.xcassets */; };
 		7421DE642D555D720071E66D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7421DE632D555D720071E66D /* Preview Assets.xcassets */; };
 		7421DE6B2D555DE40071E66D /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7421DE6A2D555DE40071E66D /* Order.swift */; };
+		7421DE6D2D5689BE0071E66D /* AddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7421DE6C2D5689BE0071E66D /* AddressView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		7421DE602D555D720071E66D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7421DE632D555D720071E66D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7421DE6A2D555DE40071E66D /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
+		7421DE6C2D5689BE0071E66D /* AddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,7 +39,6 @@
 		7421DE502D555D710071E66D = {
 			isa = PBXGroup;
 			children = (
-				7421DE6A2D555DE40071E66D /* Order.swift */,
 				7421DE5B2D555D710071E66D /* CupCakeCorner PROJECT */,
 				7421DE5A2D555D710071E66D /* Products */,
 			);
@@ -54,10 +55,12 @@
 		7421DE5B2D555D710071E66D /* CupCakeCorner PROJECT */ = {
 			isa = PBXGroup;
 			children = (
+				7421DE6A2D555DE40071E66D /* Order.swift */,
 				7421DE5C2D555D710071E66D /* CupCakeCorner_PROJECTApp.swift */,
 				7421DE5E2D555D710071E66D /* ContentView.swift */,
 				7421DE602D555D720071E66D /* Assets.xcassets */,
 				7421DE622D555D720071E66D /* Preview Content */,
+				7421DE6C2D5689BE0071E66D /* AddressView.swift */,
 			);
 			path = "CupCakeCorner PROJECT";
 			sourceTree = "<group>";
@@ -141,6 +144,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7421DE6B2D555DE40071E66D /* Order.swift in Sources */,
+				7421DE6D2D5689BE0071E66D /* AddressView.swift in Sources */,
 				7421DE5F2D555D710071E66D /* ContentView.swift in Sources */,
 				7421DE5D2D555D710071E66D /* CupCakeCorner_PROJECTApp.swift in Sources */,
 			);
