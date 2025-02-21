@@ -1,27 +1,29 @@
 //
-//  Order.swift
+//  OrderModel.swift
 //  CupCakeCorner PROJECT
 //
-//  Created by Balázs Képli on 6/2/25.
+//  Created by Balázs Képli on 21/2/25.
 //
 
 import Foundation
 
-@Observable
-class Order: Codable {
+struct Order: Codable, Hashable, Identifiable {
     
-    enum CodingKeys: String, CodingKey {
-        case _type = "type"
-        case _quantity = "quantity"
-        case _specialRequestEnabled = "specialRequestEnabled"
-        case _extraFrosting = "extraFrosting"
-        case _addSprinkles = "addSprinkles"
-        case _name = "name"
-        case _city = "city"
-        case _streetAddress = "streetAddress"
-        case _zip = "zip"
+//    enum CodingKeys: String, CodingKey {
+//        case _id = "id"
+//        case _type = "type"
+//        case _quantity = "quantity"
+//        case _specialRequestEnabled = "specialRequestEnabled"
+//        case _extraFrosting = "extraFrosting"
+//        case _addSprinkles = "addSprinkles"
+//        case _name = "name"
+//        case _city = "city"
+//        case _streetAddress = "streetAddress"
+//        case _zip = "zip"
+//    }
+//        
         
-    }
+    var id = UUID()
     
     static let types = ["Vanilla", "Strawberry", "Chocolate", "Rainbow"]
     
@@ -36,6 +38,7 @@ class Order: Codable {
             }
         }
     }
+    
     var extraFrosting = false
     var addSprinkles = false
     
