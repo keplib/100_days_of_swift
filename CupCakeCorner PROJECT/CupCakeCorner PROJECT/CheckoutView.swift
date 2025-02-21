@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CheckoutView: View {
     
-    @Bindable var order: Order
+    @Bindable var viewModel: OrderVM
     
     var body: some View {
         ScrollView {
@@ -21,11 +21,11 @@ struct CheckoutView: View {
                     ProgressView()
                 }
                 .frame(height: 233)
-                Text("Your total cost is \(order.cost, format: .currency(code: "USD"))")
+                Text("Your total cost is \(viewModel.order.cost, format: .currency(code: "USD"))")
                     .font(.title)
                 Button("Place order") {
                     Task {
-                        await order.placeOrder(for: order)
+                        await viewModel.placeOrder(for: viewModel.order)
                     }
                 }
             }
@@ -33,14 +33,14 @@ struct CheckoutView: View {
         .navigationTitle("Checkout")
         .navigationBarTitleDisplayMode(.inline)
         .scrollBounceBehavior(.basedOnSize)
-        .alert("Thank you!", isPresented: $order.showingConfirmation) {
+        .alert("Thank you!", isPresented: $viewModel.showingConfirmation) {
             Button("OK") {}
         } message: {
-            Text(order.confirmationMessage)
+            Text(viewModel.confirmationMessage)
         }
     }
 }
 
 #Preview {
-    CheckoutView(order: Order())
+    CheckoutView(viewModel: OrderVM())
 }
