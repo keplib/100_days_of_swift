@@ -14,7 +14,7 @@ struct AddBookView: View {
     
     @State private var title: String = ""
     @State private var author: String = ""
-    @State private var genre: String = ""
+    @State private var genre: String = "Historical"
     @State private var rating: Int = 3
     @State private var review: String = ""
     
@@ -36,11 +36,8 @@ struct AddBookView: View {
                 Section("Write a review") {
                     TextEditor(text: $review)
                         .frame(minHeight: 100)
-                    Picker("Rating", selection: $rating) {
-                        ForEach(1...5, id: \.self) {
-                            Text("\($0)")
-                        }
-                    }
+                    RatingView(rating: $rating)
+
                 }
                 
                 Section {
