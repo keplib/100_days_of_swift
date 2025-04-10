@@ -11,7 +11,7 @@ import SwiftUI
 struct ContentView: View {
     
     @Environment(\.modelContext) var modelContext
-    @Query var books: [Book]
+    @Query(sort: [SortDescriptor(\Book.title, order: .reverse)]) var books: [Book]
     
     @State private var showAddBookView = false
     
