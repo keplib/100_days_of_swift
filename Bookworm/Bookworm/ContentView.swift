@@ -52,5 +52,16 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Book.self, configurations: config)
+
+    let context = container.mainContext
+    
+    let sample = Book(title: "Test Book", author: "Alfred Mustermann", genre: "Poetry", review: "Beautifully written poems", rating: 5)
+        context.insert(sample)
+
+    return ContentView()
+            .modelContainer(container)
+    
 }
