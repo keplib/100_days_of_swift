@@ -6,19 +6,42 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
+    
+    @Environment(\.modelContext) var modelContext
+    @Query(sort: \User.name) var users: [User]
+    @State private var path = [User]()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack(path: $path) {
+            List(users) { user in
+                NavigationLink(value: user) {
+                    Text(user.name)
+                }
+            }
+            .navigationTitle("Users")
+            .navigationDestination(for: User.self) { user in
+                EditUserView(user: user)
+            }
         }
-        .padding()
     }
 }
 
 #Preview {
-    ContentView()
+    
+    do {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(for: User.self, configurations: config)
+        let user = User(name: "Taylor Swift", city: "Nashville", joinDate: .now)
+        
+        container.mainContext.insert(user)
+        
+        return ContentView()
+            .modelContainer(container)
+    } catch {
+        return Text("Failed to create container: \(error.localizedDescription)")
+    }
+    
 }
