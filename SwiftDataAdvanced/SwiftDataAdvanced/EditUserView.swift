@@ -9,10 +9,16 @@ import SwiftUI
 
 struct EditUserView: View {
     
-    @State var user: User
+    @Bindable var user: User
     
     var body: some View {
-        Text(user.name)
+        Form {
+            TextField("Name", text: $user.name)
+            TextField("City", text: $user.city)
+            DatePicker("Join Date", selection: $user.joinDate)
+        }
+        .navigationTitle("Edit User")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

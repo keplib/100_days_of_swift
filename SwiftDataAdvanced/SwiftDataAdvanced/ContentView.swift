@@ -25,12 +25,19 @@ struct ContentView: View {
             .navigationDestination(for: User.self) { user in
                 EditUserView(user: user)
             }
+            .toolbar {
+                Button("Add User", systemImage: "plus") {
+                    let user = User(name: "", city: "", joinDate: .now)
+                    modelContext.insert(user)
+                    path = [user]
+                }
+            }
+
         }
     }
 }
 
 #Preview {
-    
     do {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try ModelContainer(for: User.self, configurations: config)
@@ -43,5 +50,4 @@ struct ContentView: View {
     } catch {
         return Text("Failed to create container: \(error.localizedDescription)")
     }
-    
 }
