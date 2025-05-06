@@ -15,9 +15,16 @@ class FriendsAppVM {
     
     init(){
         Task {
-            await fetchUsers()
+            await loadUsers()
         }
         
+    }
+    
+    @MainActor
+    func loadUsers() async {
+        if users.isEmpty {
+            await fetchUsers()
+        }
     }
     
     @MainActor
