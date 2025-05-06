@@ -11,15 +11,38 @@ import Foundation
 class FriendsAppVM {
     
     var users: [User] = []
+    var errorMessage: String?
     
     init(){
-        self.users =  fetchUsers()
+        Task {
+            await fetchUsers()
+        }
+        
     }
     
-    private func fetchUsers() -> [User] {
-        return [
-            User(id: "1", isActive: true, name: "Balazs Képlit", age: "41", company: "Bitpanda", email: "keplib@bitpanda.com", address: "30 Bessons 08818 Olivella", about: "Software developer"),
-            User(id: "2", isActive: false, name: "Teszt Elek", age: "54", company: "wefox", email: "teszt.elek@wefox.hu", address: "7 Erkel Ferenc utca 123", about: "devOps engineer")
-        ]
+    @MainActor
+    private func fetchUsers() async {
+        errorMessage = nil
+        
+        do {
+            guard let url = URL(string: "https://www.hackingwithswift.com/samples/friendface.json") else {
+                errorMessage = "Invalid URL"
+                return
+            }
+            
+            let (data, _) = try await URLSession.shared.data(from: url)
+            
+            
+            do {
+                let decodedUsers = try JSONDecoder().decode([User].self, from: data)
+                self.users = decodedUsers
+            } catch {
+                print("Decoding error: \(error)")
+                errorMessage = "Failed to decode: \(error.localizedDescription)"
+            }
+            
+        } catch {
+            errorMessage = "Failed to fetch users: \(error.localizedDescription)"
+        }
     }
 }

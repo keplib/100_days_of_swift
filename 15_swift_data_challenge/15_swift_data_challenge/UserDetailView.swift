@@ -17,5 +17,5 @@ struct UserDetailView: View {
 }
 
 #Preview {
-    UserDetailView(user: User(id: "1", isActive: true, name: "Balazs Képlit", age: "41", company: "Bitpanda", email: "keplib@bitpanda.com", address: "30 Bessons 08818 Olivella", about: "Software developer"))
+    UserDetailView(user: User(id: "1", isActive: true, name: "Balazs Képlit", age: 41, company: "Bitpanda", email: "keplib@bitpanda.com", address: "30 Bessons 08818 Olivella", about: "Software developer"))
 }

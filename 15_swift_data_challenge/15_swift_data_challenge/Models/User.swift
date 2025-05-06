@@ -9,17 +9,17 @@ import Foundation
 import SwiftData
 
 
-class User: Identifiable, Hashable {
+class User: Identifiable, Hashable, Decodable {
     var id: String
     var isActive: Bool
     var name: String
-    var age: String
+    var age: Int
     var company: String
     var email: String
     var address: String
     var about: String
     
-    init(id: String, isActive: Bool, name: String, age: String, company: String, email: String, address: String, about: String) {
+    init(id: String, isActive: Bool, name: String, age: Int, company: String, email: String, address: String, about: String) {
         self.id = id
         self.isActive = isActive
         self.name = name
@@ -28,6 +28,17 @@ class User: Identifiable, Hashable {
         self.email = email
         self.address = address
         self.about = about
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case isActive
+        case name
+        case age
+        case company
+        case email
+        case address
+        case about
     }
     
     func hash(into hasher: inout Hasher) {
