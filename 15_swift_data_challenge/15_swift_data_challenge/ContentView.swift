@@ -12,10 +12,18 @@ struct ContentView: View {
     @State private var viewModel: FriendsAppVM = FriendsAppVM()
     
     var body: some View {
-        List {
-            ForEach(viewModel.users) { user in
-                Text(user.name)
-                
+        NavigationStack {
+            List {
+                ForEach(viewModel.users) { user in
+                    NavigationLink(value: user) {
+                        Text(user.name)
+                    }
+                    
+                }
+            }
+            .navigationTitle("Users")
+            .navigationDestination(for: User.self) { user in
+                UserDetailView()
             }
         }
     }

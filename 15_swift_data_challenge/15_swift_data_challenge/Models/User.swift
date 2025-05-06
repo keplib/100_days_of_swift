@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 
-class User: Identifiable {
+class User: Identifiable, Hashable {
     var id: String
     var isActive: Bool
     var name: String
@@ -28,6 +28,14 @@ class User: Identifiable {
         self.email = email
         self.address = address
         self.about = about
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func == (lhs: User, rhs: User) -> Bool {
+        return lhs.id == rhs.id
     }
     
 }
