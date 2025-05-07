@@ -19,8 +19,9 @@ class User: Identifiable, Hashable, Decodable {
     var address: String
     var about: String
     var friends: [Friend]
+    var registered: Date
     
-    init(id: String, isActive: Bool, name: String, age: Int, company: String, email: String, address: String, about: String, friends: [Friend]) {
+    init(id: String, isActive: Bool, name: String, age: Int, company: String, email: String, address: String, about: String, friends: [Friend], registered: Date) {
         self.id = id
         self.isActive = isActive
         self.name = name
@@ -30,6 +31,7 @@ class User: Identifiable, Hashable, Decodable {
         self.address = address
         self.about = about
         self.friends = friends
+        self.registered = registered
     }
     
     enum CodingKeys: String, CodingKey {
@@ -42,6 +44,7 @@ class User: Identifiable, Hashable, Decodable {
         case address
         case about
         case friends
+        case registered
     }
     
     func hash(into hasher: inout Hasher) {

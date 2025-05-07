@@ -41,7 +41,10 @@ class FriendsAppVM {
             
             
             do {
-                let decodedUsers = try JSONDecoder().decode([User].self, from: data)
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .iso8601
+                
+                let decodedUsers = try decoder.decode([User].self, from: data)
                 self.users = decodedUsers
             } catch {
                 print("Decoding error: \(error)")
