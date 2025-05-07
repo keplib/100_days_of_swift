@@ -16,7 +16,13 @@ struct ContentView: View {
             List {
                 ForEach(viewModel.users) { user in
                     NavigationLink(value: user) {
-                        Text(user.name)
+                        HStack {
+                            Text(user.name)
+                            Spacer()
+                            Circle()
+                                .fill(user.isActive ? .green : .red)
+                                .frame(width: 10, height: 10)
+                        }
                     }
                     
                 }
