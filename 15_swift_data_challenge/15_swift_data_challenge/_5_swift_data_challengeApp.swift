@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct _5_swift_data_challengeApp: App {
@@ -13,5 +14,6 @@ struct _5_swift_data_challengeApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: [User.self, Friend.self])
     }
 }

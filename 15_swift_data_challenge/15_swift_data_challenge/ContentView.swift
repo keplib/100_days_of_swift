@@ -6,10 +6,21 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
+
+    @Environment(\.modelContext) private var modelContext
+    @State private var viewModel: FriendsAppVM
     
-    @State private var viewModel: FriendsAppVM = FriendsAppVM()
+    init(viewModel: FriendsAppVM? = nil) {
+        if let viewModel = viewModel {
+            self.viewModel = viewModel
+        } else {
+            self.viewModel = FriendsAppVM()
+        }
+
+    }
     
     var body: some View {
         NavigationStack {
@@ -31,10 +42,16 @@ struct ContentView: View {
             .navigationDestination(for: User.self) { user in
                 UserDetailView(user: user)
             }
+            .onAppear {
+                if viewModel.modelContext == nil {
+                    viewModel.modelContext = modelContext
+                }
+            }
         }
     }
 }
 
 #Preview {
+
     ContentView()
 }

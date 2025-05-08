@@ -6,14 +6,18 @@
 //
 
 import Foundation
+import SwiftData
 
 @Observable
 class FriendsAppVM {
     
     var users: [User] = []
     var errorMessage: String?
+    var modelContext: ModelContext?
+
     
-    init(){
+    init(modelContext: ModelContext? = nil){
+        self.modelContext = modelContext
         Task {
             await loadUsers()
         }
@@ -45,7 +49,18 @@ class FriendsAppVM {
                 decoder.dateDecodingStrategy = .iso8601
                 
                 let decodedUsers = try decoder.decode([User].self, from: data)
-                self.users = decodedUsers
+                
+                if let modelContext = modelContext {
+                    for user in decodedUsers {
+                        for friend in user.friends {
+                            modelContext.insert(friend)
+                        }
+                        
+                        modelContext.insert(user)
+                        users.append(user)
+                    }
+                }
+                
             } catch {
                 print("Decoding error: \(error)")
                 errorMessage = "Failed to decode: \(error.localizedDescription)"
