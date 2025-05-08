@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct UserDetailView: View {
     
     var user: User
-    
+    @Environment(\.modelContext) var modelContext
+
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -28,11 +30,25 @@ struct UserDetailView: View {
                 List {
                     ForEach(user.friends, id: \.self) { friend in
                         VStack {
-                            Text(friend.name)
-                            
+                            NavigationLink(value: friend) {
+                                Text(friend.name)
+                            }
                         }
                     }
                 }
+                .navigationDestination(for: Friend.self) { friend in
+                    // You need to find the corresponding User here
+                    let descriptor = FetchDescriptor<User>(predicate: #Predicate { user in
+                        user.id == friend.id
+                    })
+                    
+                    if let user = try? modelContext.fetch(descriptor).first {
+                        UserDetailView(user: user)
+                    } else {
+                        Text("User not found")
+                    }
+                }
+
             }
         }
     }
@@ -40,8 +56,8 @@ struct UserDetailView: View {
 
 #Preview {
     UserDetailView(user: User(id: "1", isActive: true, name: "Balazs Képlit", age: 41, company: "Bitpanda", email: "keplib@bitpanda.com", address: "30 Bessons 08818 Olivella", about: "Software developer", friends: [
-        Friend(id: "91b5be3d-9a19-4ac2-b2ce-89cc41884ed0", name: "Hawkins Patel"),
-        Friend(id: "5890bacd-f49c-4ea2-b8fa-02db0e083238", name: "Sheryl Robinson")
+        Friend(id: "eccdf4b8-c9f6-4eeb-8832-28027eb7015", name: "Gale Dyer"),
+        Friend(id: "6c2d304e-43ba-4745-bdf0-acd70cda89a0", name: "Violet Fowler")
     ], registered: Date()
                              ))
 }
