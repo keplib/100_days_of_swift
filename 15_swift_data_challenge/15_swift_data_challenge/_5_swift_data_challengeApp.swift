@@ -12,7 +12,6 @@ import SwiftData
 struct _5_swift_data_challengeApp: App {
     
     let container: ModelContainer
-
     
     var body: some Scene {
         WindowGroup {
@@ -23,9 +22,10 @@ struct _5_swift_data_challengeApp: App {
     
     init() {
         do {
-            container = try ModelContainer(for: User.self)
+            container = try ModelContainer(for: User.self, Friend.self)
         } catch {
-            fatalError("Failed to create ModelContainer for User.")
+            fatalError("Failed to create ModelContainer: \(error)")
         }
     }
+
 }

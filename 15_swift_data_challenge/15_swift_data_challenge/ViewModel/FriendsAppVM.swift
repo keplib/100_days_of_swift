@@ -11,41 +11,35 @@ import SwiftData
 @Observable
 class FriendsAppVM {
     
-    var users: [User] = []
     var errorMessage: String?
     var modelContext: ModelContext
-    var isPreviewMode = false
     
     
-    init(modelContext: ModelContext, isPreviewMode: Bool = false, preloadedUsers: [User]? = nil){
+    init(modelContext: ModelContext) {
         self.modelContext = modelContext
-        self.isPreviewMode = isPreviewMode
         
-        if isPreviewMode, let preloadedUsers = preloadedUsers {
-            self.users = preloadedUsers
-        } else {
+        
             Task {
                 await loadUsers()
             }
-        }
         
     }
     
     @MainActor
     func loadUsers() async {
         
-        if isPreviewMode {
+        let descriptor = FetchDescriptor<User>()
+        
+        do {
+            let existingUsers = try modelContext.fetch(descriptor)
+            if !existingUsers.isEmpty {
+                return
+            }
+        } catch {
+            errorMessage = "Failed to check for existing users: \(error.localizedDescription)"
             return
         }
-
-        if users.isEmpty {
-            await fetchUsers()
-        }
-    }
-    
-    @MainActor
-    private func fetchUsers() async {
-        errorMessage = nil
+        
         
         do {
             guard let url = URL(string: "https://www.hackingwithswift.com/samples/friendface.json") else {
@@ -54,7 +48,6 @@ class FriendsAppVM {
             }
             
             let (data, _) = try await URLSession.shared.data(from: url)
-            
             
             do {
                 let decoder = JSONDecoder()
@@ -67,7 +60,6 @@ class FriendsAppVM {
                         modelContext.insert(friend)
                     }
                     modelContext.insert(user)
-                    users.append(user)
                 }
                 
                 

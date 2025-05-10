@@ -10,22 +10,24 @@ import SwiftData
 
 struct ContentView: View {
 
-    //@Environment(\.modelContext) private var modelContext
+    @Environment(\.modelContext) private var modelContext
     @State private var viewModel: FriendsAppVM
     
-    init(modelContext: ModelContext, isPreviewMode: Bool = false, preloadedUsers: [User]? = nil) {
-        let viewModel = FriendsAppVM(
-            modelContext: modelContext,
-            isPreviewMode: isPreviewMode,
-            preloadedUsers: preloadedUsers
-        )
+    @Query private var allUsers: [User]
+    
+    @Query(filter: #Predicate<User> { user in
+        user.isActive == true
+    }) private var activeUsers: [User]
+    
+    init(modelContext: ModelContext) {
+        let viewModel = FriendsAppVM(modelContext: modelContext)
         _viewModel = State(initialValue: viewModel)
     }
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach(viewModel.users) { user in
+                ForEach(allUsers) { user in
                     NavigationLink(value: user) {
                         HStack {
                             Text(user.name)
@@ -47,25 +49,18 @@ struct ContentView: View {
 }
 
 #Preview {
-    
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: User.self, Friend.self, configurations: config)
-    
     let context = container.mainContext
     
-    let preloadedUsers = setupPreviewData(in: context)
+    class PreviewViewModel: FriendsAppVM {
+        override func loadUsers() async {
+            // Do nothing - we'll manually insert sample data
+        }
+    }
     
-
+    let previewVM = PreviewViewModel(modelContext: context)
     
-    ContentView(modelContext: context, isPreviewMode: true, preloadedUsers: preloadedUsers)
-        .modelContainer(container)
-}
-
-
-
-
-
-func setupPreviewData(in context: ModelContext) -> [User] {
     let friend1 = Friend(id: "eccdf4b8-c9f6-4eeb-8832-28027eb7015", name: "Gale Dyer")
     context.insert(friend1)
     
@@ -132,8 +127,16 @@ func setupPreviewData(in context: ModelContext) -> [User] {
     
     context.insert(friendUser2)
     
-    return [user1, user2, friendUser1, friendUser2]
+    do {
+        try context.save()
+    } catch {
+        print("Failed to save preview context: \(error)")
+    }
+    
+    return ContentView(modelContext: context)
+        .modelContainer(container)
 }
+
 
 
 
