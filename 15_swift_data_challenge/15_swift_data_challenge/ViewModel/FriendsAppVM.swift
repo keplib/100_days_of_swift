@@ -13,19 +13,31 @@ class FriendsAppVM {
     
     var users: [User] = []
     var errorMessage: String?
-    var modelContext: ModelContext?
-
+    var modelContext: ModelContext
+    var isPreviewMode = false
     
-    init(modelContext: ModelContext? = nil){
+    
+    init(modelContext: ModelContext, isPreviewMode: Bool = false, preloadedUsers: [User]? = nil){
         self.modelContext = modelContext
-        Task {
-            await loadUsers()
+        self.isPreviewMode = isPreviewMode
+        
+        if isPreviewMode, let preloadedUsers = preloadedUsers {
+            self.users = preloadedUsers
+        } else {
+            Task {
+                await loadUsers()
+            }
         }
         
     }
     
     @MainActor
     func loadUsers() async {
+        
+        if isPreviewMode {
+            return
+        }
+
         if users.isEmpty {
             await fetchUsers()
         }
@@ -50,16 +62,14 @@ class FriendsAppVM {
                 
                 let decodedUsers = try decoder.decode([User].self, from: data)
                 
-                if let modelContext = modelContext {
-                    for user in decodedUsers {
-                        for friend in user.friends {
-                            modelContext.insert(friend)
-                        }
-                        
-                        modelContext.insert(user)
-                        users.append(user)
+                for user in decodedUsers {
+                    for friend in user.friends {
+                        modelContext.insert(friend)
                     }
+                    modelContext.insert(user)
+                    users.append(user)
                 }
+                
                 
             } catch {
                 print("Decoding error: \(error)")

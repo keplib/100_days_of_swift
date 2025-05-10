@@ -10,10 +10,22 @@ import SwiftData
 
 @main
 struct _5_swift_data_challengeApp: App {
+    
+    let container: ModelContainer
+
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(modelContext: container.mainContext)
         }
-        .modelContainer(for: [User.self, Friend.self])
+        .modelContainer(container)
+    }
+    
+    init() {
+        do {
+            container = try ModelContainer(for: User.self)
+        } catch {
+            fatalError("Failed to create ModelContainer for User.")
+        }
     }
 }
