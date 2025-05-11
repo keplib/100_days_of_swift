@@ -9,10 +9,13 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-
+    
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel: FriendsAppVM
     @State private var showActiveOnly: Bool = false
+    
+    @State private var isEditingUser = false
+    @State private var selectedUserToEdit: User?
     
     @State private var sortOrder = [
         SortDescriptor(\User.name),
@@ -25,12 +28,23 @@ struct ContentView: View {
     }
     
     var body: some View {
+        
         NavigationStack {
             UsersListView(showActiveOnly: showActiveOnly,
                           sortOrder: sortOrder)
             .navigationTitle("Users")
             .navigationDestination(for: User.self) { user in
                 UserDetailView(user: user)
+            }
+            .navigationDestination(for: Friend.self) { friend in
+                // Look up the user with this friend's ID
+                if let friendUser = findUserForFriend(friend) {
+                    UserDetailView(user: friendUser)
+                } else {
+                    // Fallback view if user not found
+                    Text("User details not available")
+                        .foregroundColor(.secondary)
+                }
             }
             .toolbar{
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -58,6 +72,15 @@ struct ContentView: View {
             }
         }
     }
+    
+    private func findUserForFriend(_ friend: Friend) -> User? {
+        let descriptor = FetchDescriptor<User>(predicate: #Predicate<User> { user in
+            user.id == friend.id
+        })
+        
+        return try? modelContext.fetch(descriptor).first
+    }
+    
 }
 
 #Preview {
@@ -67,7 +90,6 @@ struct ContentView: View {
     
     class PreviewViewModel: FriendsAppVM {
         override func loadUsers() async {
-            // Do nothing - we'll manually insert sample data
         }
     }
     
@@ -108,7 +130,7 @@ struct ContentView: View {
     )
     
     context.insert(user2)
-
+    
     let friendUser1 = User(
         id: "eccdf4b8-c9f6-4eeb-8832-28027eb7015",
         isActive: false,

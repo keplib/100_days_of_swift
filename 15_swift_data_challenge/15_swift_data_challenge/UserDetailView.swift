@@ -11,8 +11,9 @@ import SwiftData
 struct UserDetailView: View {
     
     var user: User
+    @State private var isEditingUser = false
     @Environment(\.modelContext) var modelContext
-
+    
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -21,34 +22,85 @@ struct UserDetailView: View {
     }()
     
     var body: some View {
-        VStack {
-            Text(user.address)
-            Text("Registered: \(dateFormatter.string(from: user.registered))")
-                .font(.body)
-            
-            Section(header: Text("Friends")) {
-                List {
-                    ForEach(user.friends, id: \.self) { friend in
-                        VStack {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                
+                Group {
+                    Text(user.name)
+                        .font(.title)
+                        .bold()
+                    HStack {
+                        Text(user.isActive ? "Active" : "Inactive")
+                            .foregroundStyle(user.isActive ? Color.green : Color.red)
+                            .font(.subheadline)
+                        Spacer()
+                        Text("Age: \(user.age)")
+                            .font(.subheadline)
+                    }
+                    
+                    Text("Company: \(user.company)")
+                    Text("Email: \(user.email)")
+                    Text("Address: \(user.address)")
+                    
+                    Text("Registered: \(dateFormatter.string(from: user.registered))")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    
+                    Text("About")
+                        .font(.headline)
+                        .padding(.top, 8)
+                    Text(user.about)
+                        .padding(.bottom, 8)
+                    
+                    if !user.friends.isEmpty {
+                        Divider()
+                        
+                        Text("Friends")
+                            .font(.headline)
+                            .padding(.top)
+                        
+                        ForEach(user.friends) { friend in
                             NavigationLink(value: friend) {
                                 Text(friend.name)
                             }
+                            .padding(.vertical, 4)
                         }
                     }
                 }
-                .navigationDestination(for: Friend.self) { friend in
-                    // You need to find the corresponding User here
-                    let descriptor = FetchDescriptor<User>(predicate: #Predicate { user in
-                        user.id == friend.id
-                    })
-                    
-                    if let user = try? modelContext.fetch(descriptor).first {
-                        UserDetailView(user: user)
-                    } else {
-                        Text("User not found")
+                .padding()
+            }
+            .navigationTitle("UserDetails")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        isEditingUser = true
+                    }) {
+                        Label("Edit", systemImage: "pencil")
                     }
                 }
-
+            }
+            .sheet(isPresented: $isEditingUser) {
+                NavigationStack {
+                    UserEditView(user: user)
+                        .navigationTitle("Edit USer")
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Cancel") {
+                                    modelContext.rollback()
+                                    isEditingUser = false
+                                }
+                            }
+                            
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("Save") {
+                                    try? modelContext.save()
+                                    isEditingUser = false
+                                }
+                            }
+                        }
+                }
+                .presentationDetents([.large])
+                
             }
         }
     }
