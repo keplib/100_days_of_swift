@@ -12,6 +12,7 @@ struct ContentView: View {
 
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel: FriendsAppVM
+    @State private var showActiveOnly: Bool = false
     
     @Query private var allUsers: [User]
     
@@ -26,23 +27,16 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(allUsers) { user in
-                    NavigationLink(value: user) {
-                        HStack {
-                            Text(user.name)
-                            Spacer()
-                            Circle()
-                                .fill(user.isActive ? .green : .red)
-                                .frame(width: 10, height: 10)
-                        }
-                    }
-                    
-                }
-            }
+            UsersListView(users: showActiveOnly ? activeUsers : allUsers)
             .navigationTitle("Users")
             .navigationDestination(for: User.self) { user in
                 UserDetailView(user: user)
+            }
+            .toolbar{
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Toggle("Active Only", isOn: $showActiveOnly)
+                        .toggleStyle(SwitchToggleStyle(tint: .green))
+                }
             }
         }
     }
