@@ -14,11 +14,10 @@ struct ContentView: View {
     @State private var viewModel: FriendsAppVM
     @State private var showActiveOnly: Bool = false
     
-    @Query private var allUsers: [User]
-    
-    @Query(filter: #Predicate<User> { user in
-        user.isActive == true
-    }) private var activeUsers: [User]
+    @State private var sortOrder = [
+        SortDescriptor(\User.name),
+        SortDescriptor(\User.registered)
+    ]
     
     init(modelContext: ModelContext) {
         let viewModel = FriendsAppVM(modelContext: modelContext)
@@ -27,7 +26,8 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            UsersListView(users: showActiveOnly ? activeUsers : allUsers)
+            UsersListView(showActiveOnly: showActiveOnly,
+                          sortOrder: sortOrder)
             .navigationTitle("Users")
             .navigationDestination(for: User.self) { user in
                 UserDetailView(user: user)
@@ -36,6 +36,24 @@ struct ContentView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Toggle("Active Only", isOn: $showActiveOnly)
                         .toggleStyle(SwitchToggleStyle(tint: .green))
+                }
+                
+                ToolbarItem {
+                    Menu("Sort", systemImage: "arrow.up.arrow.down") {
+                        Picker("Sort", selection: $sortOrder) {
+                            Text("Sort by Name")
+                                .tag([
+                                    SortDescriptor(\User.name),
+                                    SortDescriptor(\User.registered)
+                                ])
+                            
+                            Text("Sort by join date")
+                                .tag([
+                                    SortDescriptor(\User.registered),
+                                    SortDescriptor(\User.name)
+                                ])
+                        }
+                    }
                 }
             }
         }
