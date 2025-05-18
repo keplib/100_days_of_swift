@@ -17,13 +17,7 @@ struct UsersListView: View {
         List {
             ForEach(users) { user in
                 NavigationLink(value: user) {
-                    HStack {
-                        Text(user.name)
-                        Spacer()
-                        Circle()
-                            .fill(user.isActive ? .green : .red)
-                            .frame(width: 10, height: 10)
-                    }
+                    UserRowView(user: user)
                 }
                 
             }

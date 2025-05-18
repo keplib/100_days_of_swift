@@ -17,8 +17,6 @@ class FriendsAppVM {
     
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
-        
-        
             Task {
                 await loadUsers()
             }
@@ -28,48 +26,24 @@ class FriendsAppVM {
     @MainActor
     func loadUsers() async {
         
-        let descriptor = FetchDescriptor<User>()
+        if DataManager.shared.hasExistingUsers(in: modelContext) {
+                   return
+               }
         
         do {
-            let existingUsers = try modelContext.fetch(descriptor)
-            if !existingUsers.isEmpty {
-                return
-            }
-        } catch {
-            errorMessage = "Failed to check for existing users: \(error.localizedDescription)"
-            return
-        }
-        
-        
-        do {
-            guard let url = URL(string: "https://www.hackingwithswift.com/samples/friendface.json") else {
-                errorMessage = "Invalid URL"
-                return
-            }
-            
-            let (data, _) = try await URLSession.shared.data(from: url)
-            
-            do {
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
-                
-                let decodedUsers = try decoder.decode([User].self, from: data)
-                
-                for user in decodedUsers {
-                    for friend in user.friends {
-                        modelContext.insert(friend)
-                    }
-                    modelContext.insert(user)
-                }
-                
-                
-            } catch {
-                print("Decoding error: \(error)")
-                errorMessage = "Failed to decode: \(error.localizedDescription)"
-            }
-            
+            let users = try await APIManager.shared.fetchUsers()
+            DataManager.shared.saveUsers(users, in: modelContext)
+        } catch APIManager.APIError.invalidURL {
+            errorMessage = "Invalid URL"
         } catch {
             errorMessage = "Failed to fetch users: \(error.localizedDescription)"
         }
+        
+        let descriptor = FetchDescriptor<User>()
+        
+    }
+    
+    func findUserForFriend(_ friend: Friend) -> User? {
+        return DataManager.shared.findUser(withID: friend.id, in: modelContext)
     }
 }

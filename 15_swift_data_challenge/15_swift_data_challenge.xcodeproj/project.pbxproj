@@ -16,6 +16,11 @@
 			path = 15_swift_data_challenge;
 			sourceTree = "<group>";
 		};
+		744374A72DDA0CB900CA1DDF /* Services */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Services;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +39,7 @@
 			children = (
 				7432CE022DCA918900E99152 /* 15_swift_data_challenge */,
 				7432CE012DCA918900E99152 /* Products */,
+				744374A72DDA0CB900CA1DDF /* Services */,
 			);
 			sourceTree = "<group>";
 		};
@@ -62,6 +68,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				7432CE022DCA918900E99152 /* 15_swift_data_challenge */,
+				744374A72DDA0CB900CA1DDF /* Services */,
 			);
 			name = 15_swift_data_challenge;
 			packageProductDependencies = (

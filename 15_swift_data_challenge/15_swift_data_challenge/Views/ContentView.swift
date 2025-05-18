@@ -37,11 +37,9 @@ struct ContentView: View {
                 UserDetailView(user: user)
             }
             .navigationDestination(for: Friend.self) { friend in
-                // Look up the user with this friend's ID
-                if let friendUser = findUserForFriend(friend) {
+                if let friendUser = viewModel.findUserForFriend(friend) {
                     UserDetailView(user: friendUser)
                 } else {
-                    // Fallback view if user not found
                     Text("User details not available")
                         .foregroundColor(.secondary)
                 }
@@ -53,32 +51,10 @@ struct ContentView: View {
                 }
                 
                 ToolbarItem {
-                    Menu("Sort", systemImage: "arrow.up.arrow.down") {
-                        Picker("Sort", selection: $sortOrder) {
-                            Text("Sort by Name")
-                                .tag([
-                                    SortDescriptor(\User.name),
-                                    SortDescriptor(\User.registered)
-                                ])
-                            
-                            Text("Sort by join date")
-                                .tag([
-                                    SortDescriptor(\User.registered),
-                                    SortDescriptor(\User.name)
-                                ])
-                        }
-                    }
+                    SortMenu(sortOrder: $sortOrder)
                 }
             }
         }
-    }
-    
-    private func findUserForFriend(_ friend: Friend) -> User? {
-        let descriptor = FetchDescriptor<User>(predicate: #Predicate<User> { user in
-            user.id == friend.id
-        })
-        
-        return try? modelContext.fetch(descriptor).first
     }
     
 }
