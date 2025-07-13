@@ -16,6 +16,7 @@ struct ContentView: View {
     @State private var filterIntensity = 0.5
     @State private var selectedItem: PhotosPickerItem?
     @State private var currentFilter = CIFilter.sepiaTone()
+    @State private var showingFilter = false
     
     let context = CIContext()
     
@@ -44,7 +45,12 @@ struct ContentView: View {
             
             HStack {
                 Button("Change filter") {
-                    // change filter
+                    changeFilter()
+                }
+                .confirmationDialog("Select a filter", isPresented: $showingFilter) {
+                    Button("Test") {
+                        
+                    }
                 }
                 Spacer()
                 
@@ -52,6 +58,10 @@ struct ContentView: View {
             }
         }
         .padding()
+    }
+    
+    func changeFilter() {
+        showingFilter = true
     }
     
     func loadImage() {
